@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-<div align="center">
-
-<img src="./assets/cover.png">
-
 # Auto-NovelAI-Refactor
 
 ✨ 基於 NovelAI 的自動化繪圖工具 ✨
