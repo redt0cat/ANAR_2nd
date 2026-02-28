@@ -1,4 +1,4 @@
-import os
+﻿import os
 import shutil
 from typing import Union
 
@@ -13,7 +13,7 @@ class Settings(BaseSettings):
 
     proxy: Union[str, None] = None
 
-    custom_path: Union[str, None] = "<类型>/<日期>/<种子>_<编号>"
+    custom_path: Union[str, None] = "<類型>/<日期>/<種子>_<編號>"
 
     cool_time: int = 3
 

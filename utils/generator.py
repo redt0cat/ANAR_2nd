@@ -42,9 +42,9 @@ class Generator:
                 proxies=proxies,
             )
             if (status_code := rep.status_code) != 200:
-                logger.debug(f"本次请求状态码: {status_code}")
+                logger.debug(f"本次請求狀態碼: {status_code}")
                 logger.debug(rep.json()["message"])
-            logger.opt(colors=True).success(f"请求成功! <y>剩余点数: {inquire_anlas()}</y>")
+            logger.opt(colors=True).success(f"請求成功！<y>剩餘點數: {inquire_anlas()}</y>")
             with zipfile.ZipFile(io.BytesIO(rep.content), mode="r") as zip:
                 if json_data.get("req_type") == "bg-removal":
                     with (
@@ -56,20 +56,20 @@ class Generator:
                 with zip.open("image_0.png") as image:
                     return image.read()
         except Exception as e:
-            logger.error(f"出现错误: {e}")
+            logger.error(f"發生錯誤: {e}")
             return None
 
     def save(self, image_data, type, seed):
         if image_data:
             base_path = (
-                f"./outputs/{env.custom_path}".replace("<类型>", type)
+                f"./outputs/{env.custom_path}".replace("<類型>", type)
                 .replace("<日期>", str(date.today()))
-                .replace("<种子>", str(seed))
-                .replace("<随机字符>", generate_random_str(6))
+                .replace("<種子>", str(seed))
+                .replace("<隨機字元>", generate_random_str(6))
             )
             if not os.path.exists(_path := base_path.rsplit("/", 1)[0]):
                 os.makedirs(_path, exist_ok=True)
-            base_path = base_path.replace("<编号>", str(len(os.listdir(_path))).zfill(5))
+            base_path = base_path.replace("<編號>", str(len(os.listdir(_path))).zfill(5))
             base_path += ".png"
             with open(base_path, "wb") as file:
                 file.write(image_data)

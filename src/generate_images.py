@@ -183,13 +183,13 @@ def main(
 
             _break = read_json("./outputs/temp_break.json")
             if _break["break"]:
-                logger.warning("已停止生成!")
+                logger.warning("已停止產生!")
                 break
 
             if quantity != 1:
-                logger.info(f"正在生成第 {i+1} 张图片...")
+                logger.info(f"正在產生第 {i+1} 張圖片...")
             else:
-                logger.info("正在生成图片...")
+                logger.info("正在產生圖片...")
 
             _seed = random.randint(1000000000, 9999999999) if seed == "-1" else int(seed)
 
@@ -217,8 +217,8 @@ def main(
                 seed=_seed,
                 negative_prompt=return_undesired_contentc_preset(model, undesired_contentc_preset)
                 + (f", {_negative_input}" if undesired_contentc_preset != "None" else _negative_input),
-                deliberate_euler_ancestral_bug=False,  # 仅在采样器为 k_euler_ancestral 时出现
-                prefer_brownian=True,  # 仅在采样器为 k_euler_ancestral 时出现
+                deliberate_euler_ancestral_bug=False,  # 僅在取樣器為 k_euler_ancestral 時出現
+                prefer_brownian=True,  # 僅在取樣器為 k_euler_ancestral 時出現
                 use_new_shared_trial=True,
                 sm=sm,
                 sm_dyn=sm_dyn,
@@ -280,7 +280,7 @@ def main(
                     strength=strength,
                     noise=noise,
                     inpaint_i2i_strength=inpaint_i2i_strength,
-                    image=image_to_base64(composite_path if inpaint_input_image_mode == "涂鸦重绘" else image_path),
+                    image=image_to_base64(composite_path if inpaint_input_image_mode == "塗鴉重繪" else image_path),
                     mask=image_to_base64(process_white_regions(change_the_mask_color(mask_path), mask_path)),
                     extra_noise_seed=_seed,
                     color_correct=False,
@@ -296,9 +296,9 @@ def main(
             if quantity != 1 and i != quantity - 1:
                 sleep_for_cool(env.cool_time)
         except Exception as e:
-            logger.error(f"出现错误: {e}")
+            logger.error(f"發生錯誤: {e}")
             sleep_for_cool(5)
 
     playsound("./assets/finish.mp3")
 
-    return image_list, f"处理完成! 剩余点数: {inquire_anlas()}"
+    return image_list, f"處理完成！剩餘點數: {inquire_anlas()}"

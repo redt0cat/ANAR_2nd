@@ -24,11 +24,11 @@ def get_resolution_from_sliders(width, height):
     if current_res in RESOLUTION:
         return current_res
     else:
-        return "自定义"
+        return "自訂"
 
 
 def update_from_dropdown(resolution_choice):
-    if resolution_choice == "自定义":
+    if resolution_choice == "自訂":
         return gr.update(), gr.update()
 
     width, height = map(int, resolution_choice.split("x"))
@@ -89,7 +89,7 @@ def suggest_tags(input_text: str):
 
 def auto_complete(input_box):
     suggestions_radio = gr.Radio(
-        label="补全建议",
+        label="補全建議",
         choices=[],
         elem_id="suggestion_list",
         visible=False,
@@ -114,12 +114,12 @@ def auto_complete(input_box):
 
 def update_wildcard_names(wildcard_type):
     return gr.update(
-        choices=["随机", "顺序"] + [file.split(".")[0] for file in os.listdir(f"./wildcards/{wildcard_type}")]
+        choices=["隨機", "順序"] + [file.split(".")[0] for file in os.listdir(f"./wildcards/{wildcard_type}")]
     )
 
 
 def update_wildcard_tags(wildcard_type, wildcard_name):
-    if wildcard_name in ["随机", "顺序"]:
+    if wildcard_name in ["隨機", "順序"]:
         return None
     else:
         return read_txt(f"./wildcards/{wildcard_type}/{wildcard_name}.txt")
@@ -132,19 +132,19 @@ def add_wildcard_to_textbox(positive_input, wildcard_type, wildcard_name):
 def modify_wildcard(wildcard_type, wildcard_name, wildcard_tags):
     with open(f"./wildcards/{wildcard_type}/{wildcard_name}.txt", "w", encoding="utf-8") as file:
         file.write(wildcard_tags)
-    return f"已修改 <{wildcard_type}:{wildcard_name}>!"
+    return f"已修改 <{wildcard_type}:{wildcard_name}>！"
 
 
 def delete_wildcard(wildcard_type, wildcard_name):
     send2trash.send2trash(f"./wildcards/{wildcard_type}/{wildcard_name}.txt")
-    return f"已将 <{wildcard_type}:{wildcard_name}> 移动到回收站!"
+    return f"已將 <{wildcard_type}:{wildcard_name}> 移動到資源回收筒！"
 
 
 def add_wildcard(new_wildcard_type, new_wildcard_name, new_wildcard_tags):
     if not os.path.exists(_path := f"./wildcards/{new_wildcard_type}"):
         os.makedirs(_path, exist_ok=True)
     modify_wildcard(new_wildcard_type, new_wildcard_name, new_wildcard_tags)
-    return f"已添加 <{new_wildcard_type}:{new_wildcard_name}>!"
+    return f"已新增 <{new_wildcard_type}:{new_wildcard_name}>！"
 
 
 def update_components_for_models_change(model):
@@ -411,7 +411,7 @@ def return_image2image_visible(inpaint_input_image, inpaint_input_image_mode):
                 gr.update(value=w),
                 gr.update(value=h),
                 gr.update(visible=True),
-                gr.update(visible=False if inpaint_input_image_mode == "图生图" else True),
+                gr.update(visible=False if inpaint_input_image_mode == "圖生圖" else True),
             )
         (inpaint_input_image["background"]).save(image_path := "./outputs/temp_inpaint_image.png")
         return (
@@ -421,7 +421,7 @@ def return_image2image_visible(inpaint_input_image, inpaint_input_image_mode):
             gr.update(value=return_x64(w)),
             gr.update(value=return_x64(h)),
             gr.update(visible=True),
-            gr.update(visible=False if inpaint_input_image_mode == "图生图" else True),
+            gr.update(visible=False if inpaint_input_image_mode == "圖生圖" else True),
         )
     else:
         return (
@@ -519,15 +519,15 @@ def send_pnginfo_to_generate(image_path):
 
 
 def update_repo(path):
-    logger.info("正在尝试更新...")
+    logger.info("正在嘗試更新...")
     try:
         repo = git.Repo(path)
         repo.git.pull()
-        logger.success("更新完成, 重启后生效!")
-        return gr.update(value="更新完成, 重启后生效!", visible=True)
+        logger.success("更新完成，重啟後生效!")
+        return gr.update(value="更新完成，重啟後生效!", visible=True)
     except Exception as e:
-        logger.error(f"更新失败, 出现错误: {e}")
-        return gr.update(value=f"更新失败, 出现错误: {e}", visible=True)
+        logger.error(f"更新失敗，發生錯誤: {e}")
+        return gr.update(value=f"更新失敗，發生錯誤: {e}", visible=True)
 
 
 def install_plugin(name):
@@ -538,17 +538,17 @@ def install_plugin(name):
         output = update_repo("./plugins/{}".format(data[name]["name"]))
         return output
 
-    logger.info(f"正在安装 {name}...")
+    logger.info(f"正在安裝 {name}...")
     git.Git().clone(data[name]["url"], plugin_path)
-    logger.success("安装完成!")
+    logger.success("安裝完成!")
 
-    return gr.update(value="安装完成, 重启后生效!", visible=True)
+    return gr.update(value="安裝完成，重啟後生效!", visible=True)
 
 
 def uninstall_plugin(name):
     shutil.rmtree(f"./plugins/{name}")
 
-    return gr.update(value="删除成功, 重启后生效!", visible=True)
+    return gr.update(value="刪除成功，重啟後生效!", visible=True)
 
 
 def enable_plugin(name):
@@ -567,19 +567,19 @@ def enable_plugin(name):
     with open("./outputs/temp_plugins.json", "w", encoding="utf-8") as file:
         json.dump({"disable_plugin": disable_list}, file, ensure_ascii=False)
 
-    return gr.update(value=f"插件 {name} 已启用!" if FLAG else f"插件 {name} 已禁用!", visible=True)
+    return gr.update(value=f"插件 {name} 已啟用!" if FLAG else f"插件 {name} 已停用!", visible=True)
 
 
 def return_inpaint_input_image_mode(inpaint_input_image_mode, inpaint_input_image):
-    if inpaint_input_image_mode == "图生图":
+    if inpaint_input_image_mode == "圖生圖":
         return gr.update(value=inpaint_input_image["background"], brush=False, eraser=False), gr.update(visible=False)
-    elif inpaint_input_image_mode == "局部重绘":
+    elif inpaint_input_image_mode == "局部重繪":
         return gr.update(
             value=inpaint_input_image["background"],
             brush=gr.Brush(colors=["#000000"], color_mode="fixed"),
             eraser=gr.Eraser(),
         ), gr.update(visible=True)
-    elif inpaint_input_image_mode == "涂鸦重绘":
+    elif inpaint_input_image_mode == "塗鴉重繪":
         return gr.update(
             value=inpaint_input_image["background"],
             brush=gr.Brush(),

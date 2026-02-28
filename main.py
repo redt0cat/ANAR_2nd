@@ -69,17 +69,17 @@ from utils.variable import (
 )
 
 with gr.Blocks(
-    theme=env.theme if env.theme != "空" else None,
+    theme=env.theme if env.theme != "無" else None,
     title="Auto-NovelAI-Refactor",
 ) as anr:
     announcement = gr.Row()
     with announcement:
         with gr.Column(scale=2):
             updata_warning = gr.Markdown(
-                '<span style="color: green; font-size: 20px;">新增涂鸦重绘功能!</span>',
+                '<span style="color: green; font-size: 20px;">新增塗鴉重繪功能！</span>',
                 show_label=False,
             )
-        user_read = gr.Checkbox(label="我已知晓", interactive=True, scale=1)
+        user_read = gr.Checkbox(label="我已知悉", interactive=True, scale=1)
         gr.HTML("")
         user_read.change(
             lambda: gr.update(visible=False),
@@ -90,13 +90,13 @@ with gr.Blocks(
         model = gr.Dropdown(
             choices=MODELS,
             value=_model,
-            label="生图模型",
+            label="生圖模型",
             interactive=True,
             scale=1,
         )
         with gr.Column(scale=2):
             gr.Markdown(
-                "# [Auto-NovelAI-Refactor](https://github.com/zhulinyv/Auto-NovelAI-Refactor) | NovelAI 批量生成工具 | 版本: "
+                "# [Auto-NovelAI-Refactor](https://github.com/zhulinyv/Auto-NovelAI-Refactor) | NovelAI 批次產生工具 | 版本: "
                 + is_updated
             )
 
@@ -104,15 +104,15 @@ with gr.Blocks(
         with gr.Column(scale=3):
             positive_input = gr.TextArea(
                 value=last_data.get("input"),
-                label="正面提示词",
-                placeholder="请在此输入正面提示词...",
+                label="正面提示詞",
+                placeholder="請在此輸入正面提示詞...",
                 lines=5,
             )
             auto_complete(positive_input)
             negative_input = gr.TextArea(
                 value=parameters.get("negative_prompt"),
-                label="负面提示词",
-                placeholder="请在此输入负面提示词...",
+                label="負面提示詞",
+                placeholder="請在此輸入負面提示詞...",
                 lines=5,
             )
             auto_complete(negative_input)
@@ -123,7 +123,7 @@ with gr.Blocks(
                 )
                 furry_mode.click(lambda x: "🐾" if x == "🌸" else "🌸", inputs=furry_mode, outputs=furry_mode)
                 add_quality_tags = gr.Checkbox(
-                    value=parameters.get("qualityToggle", True), label="添加质量词", interactive=True
+                    value=parameters.get("qualityToggle", True), label="新增品質詞", interactive=True
                 )
             undesired_contentc_preset = gr.Dropdown(
                 choices=[
@@ -140,32 +140,32 @@ with gr.Blocks(
                     }.get(_model, [])
                 ],
                 value="None" if parameters.get("negative_prompt") else "Heavy",
-                label="负面提示词预设",
+                label="負面提示詞預設",
                 interactive=True,
             )
-            generate_button = gr.Button(value="开始生成")
-            stop_button = gr.Button(value="停止生成")
+            generate_button = gr.Button(value="開始產生")
+            stop_button = gr.Button(value="停止產生")
             stop_button.click(stop_generate)
             quantity = gr.Slider(
                 minimum=1,
                 maximum=999,
                 value=1,
                 step=1,
-                label="生成数量",
+                label="產生數量",
                 interactive=True,
             )
 
     with gr.Row():
         with gr.Column(scale=1):
-            with gr.Tab(label="参数设置"):
+            with gr.Tab(label="參數設定"):
                 resolution = gr.Dropdown(
-                    choices=RESOLUTION + ["自定义"],
+                    choices=RESOLUTION + ["自訂"],
                     value=(
-                        "自定义"
+                        "自訂"
                         if (res := "{}x{}".format(parameters.get("width"), parameters.get("height"))) not in RESOLUTION
                         else res
                     ),
-                    label="分辨率预设",
+                    label="解析度預設",
                     interactive=True,
                 )
                 with gr.Row():
@@ -174,7 +174,7 @@ with gr.Blocks(
                         maximum=50000,
                         value=parameters.get("width", 832),
                         step=64,
-                        label="宽",
+                        label="寬",
                         interactive=True,
                     )
                     height = gr.Slider(
@@ -204,7 +204,7 @@ with gr.Blocks(
                     minimum=1,
                     maximum=50,
                     value=parameters.get("steps", 23),
-                    label="采样步数",
+                    label="取樣步數",
                     step=1,
                     interactive=True,
                 )
@@ -212,7 +212,7 @@ with gr.Blocks(
                     minimum=0,
                     maximum=10,
                     value=parameters.get("scale", 5),
-                    label="提示词指导系数",
+                    label="提示詞引導係數",
                     step=0.1,
                     interactive=True,
                 )
@@ -220,7 +220,7 @@ with gr.Blocks(
                     minimum=0,
                     maximum=10,
                     value=parameters.get("cfg_rescale", 0),
-                    label="提示词重采样系数",
+                    label="提示詞重取樣係數",
                     step=0.02,
                     interactive=True,
                 )
@@ -250,7 +250,7 @@ with gr.Blocks(
                         interactive=True,
                     )
                 with gr.Row():
-                    seed = gr.Textbox(value="-1", label="种子", interactive=True, scale=4)
+                    seed = gr.Textbox(value="-1", label="種子", interactive=True, scale=4)
                 with gr.Row(scale=1):
                     last_seed = gr.Button(value="♻️", size="sm")
                     random_seed = gr.Button(value="🎲", size="sm")
@@ -266,7 +266,7 @@ with gr.Blocks(
                         else [x for x in SAMPLER if x != "ddim_v3"]
                     ),
                     value=parameters.get("sampler", "k_euler_ancestral"),
-                    label="采样器",
+                    label="取樣器",
                     interactive=True,
                 )
                 noise_schedule = gr.Dropdown(
@@ -276,7 +276,7 @@ with gr.Blocks(
                         else [x for x in NOISE_SCHEDULE if x != "native"]
                     ),
                     value=parameters.get("noise_schedule", "karras"),
-                    label="调度器",
+                    label="調度器",
                     interactive=True,
                 )
                 legacy_uc = gr.Checkbox(
@@ -287,8 +287,8 @@ with gr.Blocks(
                 )
                 with gr.Column():
                     inpaint_input_image_mode = gr.Radio(
-                        ["图生图", "局部重绘", "涂鸦重绘"],
-                        value="图生图",
+                        ["圖生圖", "局部重繪", "塗鴉重繪"],
+                        value="圖生圖",
                         show_label=False,
                         visible=False,
                         interactive=True,
@@ -300,14 +300,14 @@ with gr.Blocks(
                         brush=False,
                         eraser=False,
                         type="pil",
-                        label="基础图片(可选)",
+                        label="基礎圖片（可選）",
                         layers=False,
                     )
                 inpaint_i2i_strength = gr.Slider(
                     0.01, 1, 1, step=0.01, label="Mask Strength", visible=False, interactive=True
                 )
-                strength = gr.Slider(0.01, 0.99, 0.7, step=0.01, label="强度", visible=False, interactive=True)
-                noise = gr.Slider(0, 10, 0, step=0.01, label="噪声", visible=False, interactive=True)
+                strength = gr.Slider(0.01, 0.99, 0.7, step=0.01, label="強度", visible=False, interactive=True)
+                noise = gr.Slider(0, 10, 0, step=0.01, label="噪點", visible=False, interactive=True)
                 inpaint_input_image.change(
                     return_image2image_visible,
                     inputs=[inpaint_input_image, inpaint_input_image_mode],
@@ -327,14 +327,14 @@ with gr.Blocks(
                     [inpaint_input_image, inpaint_i2i_strength],
                 )
             character_position_tab = gr.Tab(
-                label="角色分区", visible=False if _model in ["nai-diffusion-3", "nai-diffusion-furry-3"] else True
+                label="角色分區", visible=False if _model in ["nai-diffusion-3", "nai-diffusion-furry-3"] else True
             )
             with character_position_tab:
                 character_components_list = []
                 character_components_number = gr.Number(value=0, visible=False)  # 使用 Number 替代 Slider
                 with gr.Row():
-                    add_character_button = gr.Button("添加角色")
-                    delete_character_button = gr.Button("删除角色")
+                    add_character_button = gr.Button("新增角色")
+                    delete_character_button = gr.Button("刪除角色")
                 character_position_table = gr.Dataframe(
                     value=pd.DataFrame(
                         [
@@ -353,13 +353,13 @@ with gr.Blocks(
                 ai_choice.change(lambda x: gr.update(visible=not x), inputs=ai_choice, outputs=character_position_table)
                 gr.Markdown("<hr>")
 
-                # 先创建所有组件
+                # 先建立所有元件
                 for i in range(6):
                     character_components_list.append(
-                        gr.TextArea(label=f"角色 {i+1} 正面提示词", lines=3, visible=False, interactive=True)
+                        gr.TextArea(label=f"角色 {i+1} 正面提示詞", lines=3, visible=False, interactive=True)
                     )
                     character_components_list.append(
-                        gr.TextArea(label=f"角色 {i+1} 负面提示词", lines=3, visible=False, interactive=True)
+                        gr.TextArea(label=f"角色 {i+1} 負面提示詞", lines=3, visible=False, interactive=True)
                     )
                     with gr.Row():
                         character_components_list.append(
@@ -371,7 +371,7 @@ with gr.Blocks(
                             )
                         )
                         character_components_list.append(
-                            gr.Checkbox(False, label="启用", visible=False, interactive=True)
+                            gr.Checkbox(False, label="啟用", visible=False, interactive=True)
                         )
                     character_components_list.append(gr.Markdown("<hr>", visible=False))
 
@@ -387,18 +387,18 @@ with gr.Blocks(
                 )
                 ai_choice.change(return_position_interactive, inputs=ai_choice, outputs=character_components_list)
             character_reference_tab = gr.Tab(
-                "角色参考",
+                "角色參考",
                 visible=True if _model in ["nai-diffusion-4-5-full", "nai-diffusion-4-5-curated"] else False,
             )
             with character_reference_tab:
                 precise_reference_components_list = []
                 precise_reference_components_number = gr.Number(value=0, visible=False)
                 with gr.Row():
-                    precise_reference_add_btn = gr.Button("添加角色")
-                    precise_reference_del_btn = gr.Button("删除角色")
+                    precise_reference_add_btn = gr.Button("新增角色")
+                    precise_reference_del_btn = gr.Button("刪除角色")
                 gr.Markdown("<hr>")
                 gr.Markdown(
-                    "添加角色并启用时, 每张图片消耗 5 点数; 由于 Gradio 动态渲染限制, ANR 不能无限添加角色参考图, 目前上限为 10 张, 如需添加更多请加群反馈"
+                    "新增角色並啟用時，每張圖片消耗 5 點數；由於 Gradio 動態渲染限制，ANR 無法無限新增角色參考圖，目前上限為 10 張，如需新增更多請加群回饋"
                 )
                 for i in range(10):
                     with gr.Row():
@@ -408,7 +408,7 @@ with gr.Blocks(
                         with gr.Column():
                             with gr.Row():
                                 precise_reference_components_list.append(
-                                    gr.Checkbox(False, label="启用", visible=False, interactive=True)
+                                    gr.Checkbox(False, label="啟用", visible=False, interactive=True)
                                 )
                                 precise_reference_components_list.append(
                                     gr.Dropdown(
@@ -427,7 +427,7 @@ with gr.Blocks(
                             )
                     precise_reference_components_list.append(gr.Markdown("<hr>", visible=False))
 
-            vibe_transfer_tab = gr.Tab(label="风格迁移", visible=True, interactive=True)
+            vibe_transfer_tab = gr.Tab(label="風格遷移", visible=True, interactive=True)
             precise_reference_add_btn.click(
                 add_precise_reference,
                 inputs=precise_reference_components_number,
@@ -458,7 +458,7 @@ with gr.Blocks(
                     interactive=True,
                 )
                 naiv4vibebundle_file_instruction = gr.Markdown(
-                    "关于 *.naiv4vibebundle 文件的获取: 请先在官网上传 vibe 使用的底图, 调整权重后进行编码, 待全部图片完成编码后下载 *.naiv4vibebundle 文件, 注意不要下载单张图片编码的 vibe 文件",
+                    "關於 *.naiv4vibebundle 檔案的取得：請先在官網上傳 vibe 使用的底圖，調整權重後進行編碼，待全部圖片完成編碼後下載 *.naiv4vibebundle 檔案，注意不要下載單張圖片編碼的 vibe 檔案",
                     visible=True if _model not in ["nai-diffusion-3", "nai-diffusion-furry-3"] else False,
                 )
                 nai3vibe_column = gr.Column(
@@ -466,8 +466,8 @@ with gr.Blocks(
                 )
                 with nai3vibe_column:
                     nai3vibe_transfer_image_count = gr.State(1)
-                    nai3vibe_transfer_add_button = gr.Button("添加图片")
-                    nai3vibe_transfer_del_button = gr.Button("删除图片")
+                    nai3vibe_transfer_add_button = gr.Button("新增圖片")
+                    nai3vibe_transfer_del_button = gr.Button("刪除圖片")
                     nai3vibe_transfer_add_button.click(
                         lambda x: x + 1,
                         nai3vibe_transfer_image_count,
@@ -488,10 +488,10 @@ with gr.Blocks(
                                 nai3vibe_transfer_image = gr.Image(type="filepath")
                                 with gr.Column():
                                     reference_information_extracted_multiple = gr.Slider(
-                                        0, 1, 1.0, step=0.01, label="信息提取强度", interactive=True
+                                        0, 1, 1.0, step=0.01, label="資訊擷取強度", interactive=True
                                     )
                                     reference_strength_multiple = gr.Slider(
-                                        0, 1, 0.6, step=0.01, label="画风参考强度", interactive=True
+                                        0, 1, 0.6, step=0.01, label="畫風參考強度", interactive=True
                                     )
                                     gr.Markdown("<hr>")
                             nai3vibe_transfer_components_list.append(nai3vibe_transfer_image)
@@ -540,32 +540,32 @@ with gr.Blocks(
                     wildcard_type = gr.Dropdown(
                         choices=WILDCARD_TYPE,
                         value=None,
-                        label="分类",
+                        label="分類",
                         interactive=True,
                     )
                     wildcard_name = gr.Dropdown(
                         value=None,
-                        label="名称",
+                        label="名稱",
                         interactive=True,
                     )
-                    wildcard_tags = gr.Textbox(label="包含的提示词", lines=2, interactive=True)
+                    wildcard_tags = gr.Textbox(label="包含的提示詞", lines=2, interactive=True)
                     with gr.Row():
-                        wildcard_add_positive = gr.Button("添加到正面提示词")
-                        wildcard_add_negative = gr.Button("添加到负面提示词")
+                        wildcard_add_positive = gr.Button("新增到正面提示詞")
+                        wildcard_add_negative = gr.Button("新增到負面提示詞")
                     with gr.Row():
                         wildcard_modify = gr.Button("修改", size="sm")
-                        wildcard_delete = gr.Button("删除", size="sm")
-                with gr.Tab("创建新卡片"):
+                        wildcard_delete = gr.Button("刪除", size="sm")
+                with gr.Tab("建立新卡片"):
                     with gr.Row():
                         select_new_wildcard_type = gr.Dropdown(
-                            choices=WILDCARD_TYPE, value=None, label="从已有分类中选择", interactive=True
+                            choices=WILDCARD_TYPE, value=None, label="從已有分類中選擇", interactive=True
                         )
-                        new_wildcard_type = gr.Textbox(label="分类")
+                        new_wildcard_type = gr.Textbox(label="分類")
                         select_new_wildcard_type.change(lambda x: x, select_new_wildcard_type, new_wildcard_type)
-                    new_wildcard_name = gr.Textbox(label="名称")
-                    new_wildcard_tags = gr.Textbox(label="提示词", lines=2)
-                    wildcard_add = gr.Button("添加卡片")
-                wildcard_refresh = gr.Button("刷新列表")
+                    new_wildcard_name = gr.Textbox(label="名稱")
+                    new_wildcard_tags = gr.Textbox(label="提示詞", lines=2)
+                    wildcard_add = gr.Button("新增卡片")
+                wildcard_refresh = gr.Button("重新整理列表")
 
                 wildcard_type.change(update_wildcard_names, inputs=wildcard_type, outputs=wildcard_name)
                 wildcard_name.change(
@@ -591,10 +591,10 @@ with gr.Blocks(
                     outputs=[wildcard_type, select_new_wildcard_type],
                 )
         with gr.Column(scale=2):
-            with gr.Tab("图片生成"):
+            with gr.Tab("圖片產生"):
                 with gr.Column(scale=2):
-                    output_image = gr.Gallery(label="输出图片", interactive=False, show_label=False)
-                    output_information = gr.Textbox(label="输出信息", interactive=False, show_label=False)
+                    output_image = gr.Gallery(label="輸出圖片", interactive=False, show_label=False)
+                    output_information = gr.Textbox(label="輸出資訊", interactive=False, show_label=False)
                     wildcard_modify.click(
                         modify_wildcard,
                         inputs=[wildcard_type, wildcard_name, wildcard_tags],
@@ -610,23 +610,23 @@ with gr.Blocks(
                         inputs=[new_wildcard_type, new_wildcard_name, new_wildcard_tags],
                         outputs=output_information,
                     )
-            with gr.Tab("导演工具"):
-                director_input_path = gr.Textbox(label="批处理路径(同时输入路径和图片时仅处理图片)")
+            with gr.Tab("導演工具"):
+                director_input_path = gr.Textbox(label="批次處理路徑（同時輸入路徑和圖片時僅處理圖片）")
                 with gr.Row():
                     director_input_image = gr.Image(type="filepath", label="Input")
                     director_output_image = gr.Gallery(interactive=False, label="Output")
                 with gr.Tab("Remove BG"):
-                    remove_bg_button = gr.Button("开始处理")
+                    remove_bg_button = gr.Button("開始處理")
                     remove_bg_button.click(
                         remove_bg, inputs=[director_input_path, director_input_image], outputs=director_output_image
                     )
                 with gr.Tab("Line Art"):
-                    line_art_button = gr.Button("开始处理")
+                    line_art_button = gr.Button("開始處理")
                     line_art_button.click(
                         line_art, inputs=[director_input_path, director_input_image], outputs=director_output_image
                     )
                 with gr.Tab("Sketch"):
-                    sketch_button = gr.Button("开始处理")
+                    sketch_button = gr.Button("開始處理")
                     sketch_button.click(
                         sketch, inputs=[director_input_path, director_input_image], outputs=director_output_image
                     )
@@ -634,7 +634,7 @@ with gr.Blocks(
                     with gr.Row():
                         colorize_defry = gr.Slider(0, 5, 0, step=1, label="Defry")
                         colorize_prompt = gr.Textbox(label="Prompt (Optional)")
-                    colorize_button = gr.Button("开始处理")
+                    colorize_button = gr.Button("開始處理")
                     colorize_button.click(
                         colorize,
                         inputs=[director_input_path, director_input_image, colorize_defry, colorize_prompt],
@@ -679,7 +679,7 @@ with gr.Blocks(
                             interactive=True,
                         )
                         emotion_prompt = gr.Textbox(label="Prompt (Optional)")
-                    emotion_button = gr.Button("开始处理")
+                    emotion_button = gr.Button("開始處理")
                     emotion_button.click(
                         emotion,
                         inputs=[
@@ -692,35 +692,35 @@ with gr.Blocks(
                         outputs=director_output_image,
                     )
                 with gr.Tab("Declutter"):
-                    declutter_button = gr.Button("开始处理")
+                    declutter_button = gr.Button("開始處理")
                     declutter_button.click(
                         declutter, inputs=[director_input_path, director_input_image], outputs=director_output_image
                     )
-                director_stop_button = gr.Button("停止处理")
+                director_stop_button = gr.Button("停止處理")
                 director_stop_button.click(stop_generate)
             with gr.Tab("超分降噪"):
-                upscale_input_path = gr.Textbox(label="批处理路径(同时输入路径和图片时仅处理图片)")
+                upscale_input_path = gr.Textbox(label="批次處理路徑（同時輸入路徑和圖片時僅處理圖片）")
                 with gr.Row():
                     with gr.Column():
                         upscale_input_image = gr.Image(type="numpy", interactive=False, label="Input")
                         with gr.Row():
                             upscale_input_text = gr.Textbox(visible=False)
-                            upscale_input_btn = gr.Button("选择图片")
-                            upscale_clear_btn = gr.Button("清除选择")
+                            upscale_input_btn = gr.Button("選擇圖片")
+                            upscale_clear_btn = gr.Button("清除選擇")
                     upscale_clear_btn.click(lambda x: x, gr.Textbox(None, visible=False), upscale_input_text)
                     upscale_input_btn.click(tk_asksavefile_asy, inputs=[], outputs=[upscale_input_text])
                     upscale_input_text.change(return_array_image, upscale_input_text, upscale_input_image)
                     upscale_output_image = gr.Gallery(interactive=False, label="Output")
                 with gr.Tab("realcugan-ncnn-vulkan"):
                     with gr.Column():
-                        # gr.Markdown("出现错误时请确保电脑上有 vulkan-1.dll 文件")
+                        # gr.Markdown("發生錯誤時請確保電腦上有 vulkan-1.dll 檔案")
                         with gr.Row():
-                            realcugan_noise = gr.Slider(minimum=-1, maximum=3, value=3, step=1, label="降噪强度")
-                            realcugan_scale = gr.Slider(minimum=2, maximum=4, value=2, step=1, label="放大倍数")
+                            realcugan_noise = gr.Slider(minimum=-1, maximum=3, value=3, step=1, label="降噪強度")
+                            realcugan_scale = gr.Slider(minimum=2, maximum=4, value=2, step=1, label="放大倍數")
                         realcugan_model = gr.Radio(
                             ["models-se", "models-pro", "models-nose"], value="models-se", label="超分模型"
                         )
-                        realcugan_button = gr.Button("开始生成")
+                        realcugan_button = gr.Button("開始產生")
                         realcugan_button.click(
                             realcugan_ncnn_vulkan,
                             inputs=[
@@ -734,15 +734,15 @@ with gr.Blocks(
                         )
                 with gr.Tab("Anime4K"):
                     with gr.Column():
-                        # gr.Markdown("出现错误时请确保电脑上有 OpenCL.dll 文件")
+                        # gr.Markdown("發生錯誤時請確保電腦上有 OpenCL.dll 檔案")
                         with gr.Row():
-                            anime4k_zoomFactor = gr.Slider(1, maximum=32, value=2, step=1, label="放大倍数")
-                            anime4k_HDNLevel = gr.Slider(minimum=1, maximum=3, step=1, value=3, label="HDN 等级")
+                            anime4k_zoomFactor = gr.Slider(1, maximum=32, value=2, step=1, label="放大倍數")
+                            anime4k_HDNLevel = gr.Slider(minimum=1, maximum=3, step=1, value=3, label="HDN 等級")
                         with gr.Row():
-                            anime4k_GPUMode = gr.Radio([True, False], label="开启 GPU 加速", value=True)
-                            anime4k_CNNMode = gr.Radio([True, False], label="开启 ACNet 模式", value=True)
-                            anime4k_HDN = gr.Radio([True, False], label="为 ACNet 开启 HDN", value=True)
-                        anime4k_button = gr.Button("开始生成")
+                            anime4k_GPUMode = gr.Radio([True, False], label="開啟 GPU 加速", value=True)
+                            anime4k_CNNMode = gr.Radio([True, False], label="開啟 ACNet 模式", value=True)
+                            anime4k_HDN = gr.Radio([True, False], label="為 ACNet 開啟 HDN", value=True)
+                        anime4k_button = gr.Button("開始產生")
                         anime4k_button.click(
                             anime4k,
                             inputs=[
@@ -762,11 +762,11 @@ with gr.Blocks(
                             waifu2x_caffe_mode = gr.Radio(
                                 ["noise", "scale", "noise_scale"], value="noise_scale", label="模式"
                             )
-                            waifu2x_caffe_process = gr.Radio(["cpu", "gpu", "cudnn"], value="gpu", label="处理模式")
-                            waifu2x_caffe_tta = gr.Radio([True, False], value=False, label="开启 tta 模式")
+                            waifu2x_caffe_process = gr.Radio(["cpu", "gpu", "cudnn"], value="gpu", label="處理模式")
+                            waifu2x_caffe_tta = gr.Radio([True, False], value=False, label="開啟 tta 模式")
                         with gr.Row():
-                            waifu2x_caffe_scale = gr.Slider(minimum=1, maximum=32, value=2, label="放大倍数")
-                            waifu2x_caffe_noise = gr.Slider(minimum=0, maximum=3, step=1, value=3, label="降噪强度")
+                            waifu2x_caffe_scale = gr.Slider(minimum=1, maximum=32, value=2, label="放大倍數")
+                            waifu2x_caffe_noise = gr.Slider(minimum=0, maximum=3, step=1, value=3, label="降噪強度")
                         waifu2x_caffe_model = gr.Radio(
                             [
                                 "anime_style_art_rgb",
@@ -781,7 +781,7 @@ with gr.Blocks(
                             value="cunet",
                             label="超分模型",
                         )
-                        waifu2x_caffe_button = gr.Button("开始生成")
+                        waifu2x_caffe_button = gr.Button("開始產生")
                         waifu2x_caffe_button.click(
                             waifu2x_caffe,
                             inputs=[
@@ -796,14 +796,14 @@ with gr.Blocks(
                             ],
                             outputs=upscale_output_image,
                         )
-                upscale_stop_button = gr.Button("停止生成")
+                upscale_stop_button = gr.Button("停止產生")
                 upscale_stop_button.click(stop_generate)
-            with gr.Tab("法术解析"):
-                with gr.Tab("读取信息"):
+            with gr.Tab("法術解析"):
+                with gr.Tab("讀取資訊"):
                     with gr.Row():
                         with gr.Column():
                             pnginfo_image = gr.Image(type="pil", image_mode="RGBA")
-                            send_button = gr.Button("发送到图片生成", visible=False)
+                            send_button = gr.Button("發送到圖片產生", visible=False)
                             send_info_from_json = gr.Files(
                                 type="filepath",
                                 visible=False,
@@ -839,8 +839,8 @@ with gr.Blocks(
                                 + character_components_list,
                             )
                             with gr.Row():
-                                show_all_pnginfo = gr.Checkbox(False, label="显示所有信息")
-                                show_send_info_from_json = gr.Checkbox(False, label="从 json 文件导入")
+                                show_all_pnginfo = gr.Checkbox(False, label="顯示所有資訊")
+                                show_send_info_from_json = gr.Checkbox(False, label="從 json 檔案匯入")
                                 show_send_info_from_json.change(
                                     lambda x: gr.update(visible=True if x else False),
                                     inputs=show_send_info_from_json,
@@ -852,7 +852,7 @@ with gr.Blocks(
                             comment = gr.JSON(label="Comment", open=True)
                             description = gr.TextArea(label="Description")
                             software = gr.Textbox(label="Software")
-                    all_pnginfo = gr.JSON(label="全部信息", open=True, visible=False)
+                    all_pnginfo = gr.JSON(label="全部資訊", open=True, visible=False)
                     show_all_pnginfo.change(
                         lambda x: gr.update(visible=x), inputs=show_all_pnginfo, outputs=all_pnginfo
                     )
@@ -895,7 +895,7 @@ with gr.Blocks(
                         ]
                         + character_components_list,
                     )
-                with gr.Tab("图片反推"):
+                with gr.Tab("圖片反推"):
                     with gr.Row():
                         with gr.Column():
                             tagger_image = gr.Image(type="filepath", label="Input")
@@ -929,7 +929,7 @@ with gr.Blocks(
                                 use_mcut_threshold_character = gr.Checkbox(False, label="Use MCut threshold")
                             with gr.Row():
                                 submit_button = gr.Button("提交")
-                                tagger_send_button = gr.Button("发送到图片生成")
+                                tagger_send_button = gr.Button("發送到圖片產生")
                         with gr.Column():
                             tagger_sorted_general_strings = gr.TextArea(label="Output (string)", interactive=False)
                             tagger_rating = gr.Label(label="Rating")
@@ -955,19 +955,19 @@ with gr.Blocks(
                         tagger_send_button.click(
                             lambda x: x, inputs=tagger_sorted_general_strings, outputs=positive_input
                         )
-                with gr.Tab("抹除数据"):
+                with gr.Tab("抹除資料"):
                     with gr.Row():
                         with gr.Column():
-                            remove_pnginfo_image = gr.Image(type="numpy", interactive=False, label="单张处理(可选)")
+                            remove_pnginfo_image = gr.Image(type="numpy", interactive=False, label="單張處理（可選）")
                             with gr.Row():
                                 norm_input_text = gr.Textbox(visible=False)
-                                norm_input_btn = gr.Button("选择图片")
-                                norm_clear_btn = gr.Button("清除选择")
+                                norm_input_btn = gr.Button("選擇圖片")
+                                norm_clear_btn = gr.Button("清除選擇")
                         norm_clear_btn.click(lambda x: x, gr.Textbox(None, visible=False), norm_input_text)
                         norm_input_btn.click(tk_asksavefile_asy, inputs=[], outputs=[norm_input_text])
                         norm_input_text.change(return_array_image, norm_input_text, remove_pnginfo_image)
                         with gr.Column():
-                            remove_pnginfo_generate_button = gr.Button("开始处理")
+                            remove_pnginfo_generate_button = gr.Button("開始處理")
                             remove_pnginfo_choices = gr.CheckboxGroup(
                                 [
                                     "Title",
@@ -991,11 +991,11 @@ with gr.Blocks(
                                     "parameters",
                                     "prompt",
                                 ],
-                                label="要清除的内容",
+                                label="要清除的內容",
                                 scale=2,
                             )
-                            remove_pnginfo_metadate = gr.Textbox(label="添加自定义信息(可选)")
-                            remove_pnginfo_input_path = gr.Textbox(label="批处理路径(可选)")
+                            remove_pnginfo_metadate = gr.Textbox(label="新增自訂資訊（可選）")
+                            remove_pnginfo_input_path = gr.Textbox(label="批次處理路徑（可選）")
                             remove_pnginfo_output_information = gr.Textbox(show_label=False, visible=False)
                             remove_pnginfo_output_information.change(
                                 lambda x: gr.update(visible=True if x else False),
@@ -1012,27 +1012,27 @@ with gr.Blocks(
                                 ],
                                 outputs=[remove_pnginfo_output_information],
                             )
-            with gr.Tab("图片筛选"):
+            with gr.Tab("圖片篩選"):
                 with gr.Column():
                     with gr.Row():
-                        selector_input_path = gr.Textbox(label="图片目录", scale=4)
-                        selector_select_button = gr.Button("加载图片", scale=1)
+                        selector_input_path = gr.Textbox(label="圖片目錄", scale=4)
+                        selector_select_button = gr.Button("載入圖片", scale=1)
                     with gr.Row():
-                        selector_output_path = gr.Textbox(label="目录1")
-                        _selector_output_path = gr.Textbox(label="目录2")
+                        selector_output_path = gr.Textbox(label="目錄1")
+                        _selector_output_path = gr.Textbox(label="目錄2")
                 with gr.Row():
                     with gr.Column(scale=2):
                         selector_output_image = gr.Gallery(preview=True, label="Image")
-                        selector_send_image = gr.Button("发送到法术解析")
+                        selector_send_image = gr.Button("發送到法術解析")
                     with gr.Column(scale=1):
-                        selector_next_button = gr.Button("跳过")
+                        selector_next_button = gr.Button("跳過")
                         with gr.Row():
-                            selector_move_button = gr.Button("移动到目录1", min_width=50)
-                            _selector_move_button = gr.Button("移动到目录2", min_width=50)
+                            selector_move_button = gr.Button("移動到目錄1", min_width=50)
+                            _selector_move_button = gr.Button("移動到目錄2", min_width=50)
                         with gr.Row():
-                            selector_copy_button = gr.Button("复制到目录1", min_width=50)
-                            _selector_copy_button = gr.Button("复制到目录2", min_width=50)
-                        selector_delete_button = gr.Button("删除")
+                            selector_copy_button = gr.Button("複製到目錄1", min_width=50)
+                            _selector_copy_button = gr.Button("複製到目錄2", min_width=50)
+                        selector_delete_button = gr.Button("刪除")
                     selector_current_img = gr.Textbox(visible=False)
                     selector_select_button.click(
                         fn=show_first_img,
@@ -1076,13 +1076,13 @@ with gr.Blocks(
                             + [i.replace(".py", "") for i in os.listdir("./plugins")]
                         )
                     ),
-                    label="插件名称",
+                    label="插件名稱",
                 )
                 with gr.Row():
-                    plugin_store_install_button = gr.Button("安装/更新")
-                    plugin_store_uninstall_button = gr.Button("删除")
-                    plugin_store_enable_button = gr.Button("启用/禁用")
-                    plugin_store_restart_button = gr.Button("重启")
+                    plugin_store_install_button = gr.Button("安裝／更新")
+                    plugin_store_uninstall_button = gr.Button("刪除")
+                    plugin_store_enable_button = gr.Button("啟用／停用")
+                    plugin_store_restart_button = gr.Button("重啟")
                 gr.Markdown(plugin_list())
                 plugin_store_install_button.click(
                     install_plugin, inputs=plugin_store_plugin_name, outputs=plugin_store_output_information
@@ -1098,11 +1098,11 @@ with gr.Blocks(
             for plugin_name, plugin_module in plugins.items():
                 if hasattr(plugin_module, "plugin"):
                     plugin_module.plugin()
-            with gr.Tab("配置设置"):
+            with gr.Tab("配置設定"):
                 update_anr_button = gr.Button("更新 ANR")
                 with gr.Row():
-                    setting_modify_button = gr.Button("保存")
-                    setting_restart_button = gr.Button("重启")
+                    setting_modify_button = gr.Button("儲存")
+                    setting_restart_button = gr.Button("重啟")
                     setting_restart_button.click(restart)
                 setting_output_information = gr.Textbox(show_label=False, visible=False)
                 token = gr.Textbox(
@@ -1112,31 +1112,31 @@ with gr.Blocks(
                     visible=True if not env.share else False,
                 )
                 gr.Markdown(
-                    "获取 Token 的方法: [**自述文件**](https://github.com/zhulinyv/Semi-Auto-NovelAI-to-Pixiv#%EF%B8%8F-%E9%85%8D%E7%BD%AE)",
+                    "取得 Token 的方法: [**自述檔案**](https://github.com/zhulinyv/Semi-Auto-NovelAI-to-Pixiv#%EF%B8%8F-%E9%85%8D%E7%BD%AE)",
                     visible=True if not env.share else False,
                 )
-                format_input = gr.Checkbox(value=env.format_input, label="格式化输入")
-                gr.Markdown("启用后, 将对输入的提示词进行格式化(删除多余空格和逗号或添加缺少的空格和逗号)")
-                proxy = gr.Textbox(value=env.proxy, label="代理地址")
-                gr.Markdown("<p>本地代理格式应为: http://127.0.0.1:xxx (xxx 为代理软件的端口号)</p>")
-                custom_path = gr.Textbox(value=env.custom_path, label="自定义路径")
+                format_input = gr.Checkbox(value=env.format_input, label="格式化輸入")
+                gr.Markdown("啟用後，將對輸入的提示詞進行格式化（刪除多餘空格和逗號或新增缺少的空格和逗號）")
+                proxy = gr.Textbox(value=env.proxy, label="代理位址")
+                gr.Markdown("<p>本地代理格式應為: http://127.0.0.1:xxx (xxx 為代理軟體的連接埠號)</p>")
+                custom_path = gr.Textbox(value=env.custom_path, label="自訂路徑")
                 gr.Markdown(
-                    "已支持的自动替换路径: <类型>, <日期>, <种子>, <随机字符>, <编号>, 推荐: `<类型>/<日期>/<种子>_<编号>`"
+                    "已支援的自動替換路徑: <類型>, <日期>, <種子>, <隨機字元>, <編號>, 推薦: `<類型>/<日期>/<種子>_<編號>`"
                 )
-                cool_time = gr.Slider(1, 600, env.cool_time, label="冷却时间")
-                gr.Markdown("会上下浮动 1 秒")
-                port = gr.Textbox(value=env.port, label="ANR 的端口号")
-                gr.Markdown("理论范围：1 - 65535")
-                share = gr.Checkbox(value=env.share, label="共享 Gradio 链接")
-                gr.Markdown("生成一个有效期一周的可分享链接, 可以在任意设备上访问")
+                cool_time = gr.Slider(1, 600, env.cool_time, label="冷卻時間")
+                gr.Markdown("會上下浮動 1 秒")
+                port = gr.Textbox(value=env.port, label="ANR 的連接埠號")
+                gr.Markdown("理論範圍：1 - 65535")
+                share = gr.Checkbox(value=env.share, label="共享 Gradio 連結")
+                gr.Markdown("產生一個有效期一週的可分享連結，可以在任意裝置上存取")
                 with gr.Row():
-                    start_sound = gr.Checkbox(value=env.start_sound, label="启动提示音")
+                    start_sound = gr.Checkbox(value=env.start_sound, label="啟動提示音")
                     finish_sound = gr.Checkbox(value=env.finish_sound, label="完成提示音")
-                check_update = gr.Checkbox(value=env.check_update, label="启动时检查更新")
+                check_update = gr.Checkbox(value=env.check_update, label="啟動時檢查更新")
                 theme = gr.Dropdown(
                     value=env.theme,
                     choices=[
-                        "空",
+                        "無",
                         "gradio/base",
                         "gradio/glass",
                         "gradio/monochrome",
@@ -1168,11 +1168,11 @@ with gr.Blocks(
                         "ysharma/steampunk",
                         "NoCrypt/miku",
                     ],
-                    label="WebUI 主题",
+                    label="WebUI 主題",
                     allow_custom_value=True,
                 )
                 gr.Markdown(
-                    f"[切换到浅色页面](http://127.0.0.1:{env.port}/?__theme=light) [切换到深色页面](http://127.0.0.1:{env.port}/?__theme=dark)"
+                    f"[切換到淺色頁面](http://127.0.0.1:{env.port}/?__theme=light) [切換到深色頁面](http://127.0.0.1:{env.port}/?__theme=dark)"
                 )
                 setting_modify_button.click(
                     modify_env,

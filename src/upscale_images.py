@@ -20,7 +20,7 @@ def before_process(upscale_input_path, upscale_input_image):
         image_list = [Path(upscale_input_path) / file for file in os.listdir(upscale_input_path)]
 
     if platform.system() != "Windows":
-        logger.error("仅支持 Windows 运行!")
+        logger.error("僅支援 Windows 執行!")
         return []
 
     return image_list
@@ -33,25 +33,25 @@ def run_cmd(code):
         result = (stdout or stderr).decode("gb18030", errors="ignore").strip()
         return result
     except Exception as e:
-        logger.error(f"出现错误! {e}")
+        logger.error(f"發生錯誤！{e}")
         return
 
 
 def realcugan_ncnn_vulkan(upscale_input_path, upscale_input_image, realcugan_noise, realcugan_scale, realcugan_model):
     if not os.path.exists("./assets/realcugan-ncnn-vulkan"):
-        logger.debug("正在下载 realcugan-ncnn-vulkan 超分引擎")
+        logger.debug("正在下載 realcugan-ncnn-vulkan 超分引擎")
         download(
             "https://huggingface.co/datasets/Xytpz/ANR_Upscale_Engine/resolve/main/realcugan-ncnn-vulkan.zip?download=true",
             "./outputs/temp.zip",
         )
-        logger.debug("正在解压 realcugan-ncnn-vulkan 到 ./assets/realcugan-ncnn-vulkan")
+        logger.debug("正在解壓 realcugan-ncnn-vulkan 到 ./assets/realcugan-ncnn-vulkan")
         extract("./outputs/temp.zip", "./assets/realcugan-ncnn-vulkan")
 
     image_list = []
     for image in before_process(upscale_input_path, upscale_input_image):
         _break = read_json("./outputs/temp_break.json")
         if _break["break"]:
-            logger.warning("已停止生成!")
+            logger.warning("已停止產生!")
             break
 
         name, extension = os.path.splitext(os.path.basename(image))
@@ -64,17 +64,17 @@ def realcugan_ncnn_vulkan(upscale_input_path, upscale_input_image, realcugan_noi
         logger.info("\n" + result)
         if os.path.exists(output_path):
             logger.success("超分完成!")
-            logger.info(f"图片已保存到 {output_path}")
+            logger.info(f"圖片已儲存到 {output_path}")
 
-            logger.debug("正在还原元数据...")
+            logger.debug("正在還原中繼資料...")
             if revert_image_info(image, output_path):
-                logger.success("还原成功!")
+                logger.success("還原成功!")
             else:
-                logger.error("还原失败!")
+                logger.error("還原失敗!")
 
             image_list.append(return_array_image(output_path))
         else:
-            logger.error("超分失败! 请查看上方输出日志!")
+            logger.error("超分失敗！請查看上方輸出日誌!")
     playsound("./assets/finish.mp3")
     return image_list
 
@@ -89,19 +89,19 @@ def anime4k(
     anime4k_HDN,
 ):
     if not os.path.exists("./assets/Anime4K"):
-        logger.debug("正在下载 Anime4K 超分引擎")
+        logger.debug("正在下載 Anime4K 超分引擎")
         download(
             "https://huggingface.co/datasets/Xytpz/ANR_Upscale_Engine/resolve/main/Anime4K.zip?download=true",
             "./outputs/temp.zip",
         )
-        logger.debug("正在解压 Anime4K 到 ./assets/Anime4K")
+        logger.debug("正在解壓 Anime4K 到 ./assets/Anime4K")
         extract("./outputs/temp.zip", "./assets/Anime4K")
 
     image_list = []
     for image in before_process(upscale_input_path, upscale_input_image):
         _break = read_json("./outputs/temp_break.json")
         if _break["break"]:
-            logger.warning("已停止生成!")
+            logger.warning("已停止產生!")
             break
 
         name, extension = os.path.splitext(os.path.basename(image))
@@ -120,17 +120,17 @@ def anime4k(
         logger.info("\n" + result)
         if os.path.exists(output_path):
             logger.success("超分完成!")
-            logger.info(f"图片已保存到 {output_path}")
+            logger.info(f"圖片已儲存到 {output_path}")
 
-            logger.debug("正在还原元数据...")
+            logger.debug("正在還原中繼資料...")
             if revert_image_info(image, output_path):
-                logger.success("还原成功!")
+                logger.success("還原成功!")
             else:
-                logger.error("还原失败!")
+                logger.error("還原失敗!")
 
             image_list.append(return_array_image(output_path))
         else:
-            logger.error("超分失败! 请查看上方输出日志!")
+            logger.error("超分失敗！請查看上方輸出日誌!")
     playsound("./assets/finish.mp3")
     return image_list
 
@@ -146,19 +146,19 @@ def waifu2x_caffe(
     waifu2x_caffe_model,
 ):
     if not os.path.exists("./assets/waifu2x-caffe"):
-        logger.debug("正在下载 waifu2x-caffe 超分引擎")
+        logger.debug("正在下載 waifu2x-caffe 超分引擎")
         download(
             "https://huggingface.co/datasets/Xytpz/ANR_Upscale_Engine/resolve/main/waifu2x-caffe.zip?download=true",
             "./outputs/temp.zip",
         )
-        logger.debug("正在解压 waifu2x-caffe 到 ./assets/waifu2x-caffe")
+        logger.debug("正在解壓 waifu2x-caffe 到 ./assets/waifu2x-caffe")
         extract("./outputs/temp.zip", "./assets/waifu2x-caffe")
 
     image_list = []
     for image in before_process(upscale_input_path, upscale_input_image):
         _break = read_json("./outputs/temp_break.json")
         if _break["break"]:
-            logger.warning("已停止生成!")
+            logger.warning("已停止產生!")
             break
 
         name, extension = os.path.splitext(os.path.basename(image))
@@ -176,16 +176,16 @@ def waifu2x_caffe(
 
         if os.path.exists(output_path):
             logger.success("超分完成!")
-            logger.info(f"图片已保存到 {output_path}")
+            logger.info(f"圖片已儲存到 {output_path}")
 
-            logger.debug("正在还原元数据...")
+            logger.debug("正在還原中繼資料...")
             if revert_image_info(image, output_path):
-                logger.success("还原成功!")
+                logger.success("還原成功!")
             else:
-                logger.error("还原失败!")
+                logger.error("還原失敗!")
 
             image_list.append(return_array_image(output_path))
         else:
-            logger.error("超分失败! 请查看上方输出日志!")
+            logger.error("超分失敗！請查看上方輸出日誌!")
     playsound("./assets/finish.mp3")
     return image_list

@@ -38,4 +38,4 @@ def modify_env(
         theme=f'"{theme}"',
         format_input=format_input,
     )
-    return gr.update(value="修改已保存, 重启后生效!", visible=True)
+    return gr.update(value="修改已儲存，重啟後生效！", visible=True)

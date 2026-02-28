@@ -34,10 +34,10 @@ def remove_bg(director_input_path, director_input_image):
         try:
             _break = read_json("./outputs/temp_break.json")
             if _break["break"]:
-                logger.warning("已停止生成!")
+                logger.warning("已停止產生!")
                 break
 
-            logger.info(f"正在处理 {os.path.basename(image_path)} ...")
+            logger.info(f"正在處理 {os.path.basename(image_path)} ...")
 
             with Image.open(image_path) as image:
                 w, h = image.size
@@ -51,7 +51,7 @@ def remove_bg(director_input_path, director_input_image):
                     image_list.append(path)
                     sleep_for_cool(env.cool_time)
         except Exception as e:
-            logger.error(f"出现错误: {e}")
+            logger.error(f"發生錯誤: {e}")
             sleep_for_cool(5)
 
     playsound("./assets/finish.mp3")
@@ -66,10 +66,10 @@ def line_art(director_input_path, director_input_image):
         try:
             _break = read_json("./outputs/temp_break.json")
             if _break["break"]:
-                logger.warning("已停止生成!")
+                logger.warning("已停止產生!")
                 break
 
-            logger.info(f"正在处理 {os.path.basename(image_path)} ...")
+            logger.info(f"正在處理 {os.path.basename(image_path)} ...")
 
             with Image.open(image_path) as image:
                 w, h = image.size
@@ -82,7 +82,7 @@ def line_art(director_input_path, director_input_image):
                 image_list.append(path)
                 sleep_for_cool(env.cool_time)
         except Exception as e:
-            logger.error(f"出现错误: {e}")
+            logger.error(f"發生錯誤: {e}")
             sleep_for_cool(5)
 
     playsound("./assets/finish.mp3")
@@ -97,10 +97,10 @@ def sketch(director_input_path, director_input_image):
         try:
             _break = read_json("./outputs/temp_break.json")
             if _break["break"]:
-                logger.warning("已停止生成!")
+                logger.warning("已停止產生!")
                 break
 
-            logger.info(f"正在处理 {os.path.basename(image_path)} ...")
+            logger.info(f"正在處理 {os.path.basename(image_path)} ...")
 
             with Image.open(image_path) as image:
                 w, h = image.size
@@ -113,7 +113,7 @@ def sketch(director_input_path, director_input_image):
                 image_list.append(path)
                 sleep_for_cool(env.cool_time)
         except Exception as e:
-            logger.error(f"出现错误: {e}")
+            logger.error(f"發生錯誤: {e}")
             sleep_for_cool(5)
 
     playsound("./assets/finish.mp3")
@@ -128,10 +128,10 @@ def colorize(director_input_path, director_input_image, colorize_defry, colorize
         try:
             _break = read_json("./outputs/temp_break.json")
             if _break["break"]:
-                logger.warning("已停止生成!")
+                logger.warning("已停止產生!")
                 break
 
-            logger.info(f"正在处理 {os.path.basename(image_path)} ...")
+            logger.info(f"正在處理 {os.path.basename(image_path)} ...")
 
             with Image.open(image_path) as image:
                 w, h = image.size
@@ -150,7 +150,7 @@ def colorize(director_input_path, director_input_image, colorize_defry, colorize
                 image_list.append(path)
                 sleep_for_cool(env.cool_time)
         except Exception as e:
-            logger.error(f"出现错误: {e}")
+            logger.error(f"發生錯誤: {e}")
             sleep_for_cool(5)
 
     playsound("./assets/finish.mp3")
@@ -165,10 +165,10 @@ def emotion(director_input_path, director_input_image, emotion_tag: str, emotion
         try:
             _break = read_json("./outputs/temp_break.json")
             if _break["break"]:
-                logger.warning("已停止生成!")
+                logger.warning("已停止產生!")
                 break
 
-            logger.info(f"正在处理 {os.path.basename(image_path)} ...")
+            logger.info(f"正在處理 {os.path.basename(image_path)} ...")
 
             with Image.open(image_path) as image:
                 w, h = image.size
@@ -189,7 +189,7 @@ def emotion(director_input_path, director_input_image, emotion_tag: str, emotion
                 image_list.append(path)
                 sleep_for_cool(env.cool_time)
         except Exception as e:
-            logger.error(f"出现错误: {e}")
+            logger.error(f"發生錯誤: {e}")
             sleep_for_cool(5)
 
     playsound("./assets/finish.mp3")
@@ -204,10 +204,10 @@ def declutter(director_input_path, director_input_image):
         try:
             _break = read_json("./outputs/temp_break.json")
             if _break["break"]:
-                logger.warning("已停止生成!")
+                logger.warning("已停止產生!")
                 break
 
-            logger.info(f"正在处理 {os.path.basename(image_path)} ...")
+            logger.info(f"正在處理 {os.path.basename(image_path)} ...")
 
             with Image.open(image_path) as image:
                 w, h = image.size
@@ -220,7 +220,7 @@ def declutter(director_input_path, director_input_image):
                 image_list.append(path)
                 sleep_for_cool(env.cool_time)
         except Exception as e:
-            logger.error(f"出现错误: {e}")
+            logger.error(f"發生錯誤: {e}")
             sleep_for_cool(5)
 
     playsound("./assets/finish.mp3")

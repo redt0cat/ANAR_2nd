@@ -106,10 +106,10 @@ def replace_wildcards(text: str):
     matchers_number = 0
     while matchers:
         for wild_card in matchers:
-            if wild_card[1] == "随机":
+            if wild_card[1] == "隨機":
                 tag = read_txt((_path := f"./wildcards/{wild_card[0]}/") + (name := random.choice(os.listdir(_path))))
                 name = name.replace(".txt", "")
-            elif wild_card[1] == "顺序":
+            elif wild_card[1] == "順序":
                 if os.path.exists("./outputs/temp_wildcards.json"):
                     data = read_json("./outputs/temp_wildcards.json")
                     try:
@@ -141,7 +141,7 @@ def replace_wildcards(text: str):
                 )
             )
         matchers = re.findall(pattern, text)
-    (logger.info(f"共发现 {matchers_number} 个 wildcard, 已完成替换!") if matchers_number != 0 else ...)
+    (logger.info(f"共發現 {matchers_number} 個 wildcard，已完成替換!") if matchers_number != 0 else ...)
     return format_str(text)
 
 
@@ -177,7 +177,7 @@ def find_and_replace_wildcards_from_dict(data: dict):
 
 def sleep_for_cool(seconds):
     sleep_time = round(random.uniform(abs(seconds - 1), seconds + 1), 3)
-    logger.debug(f"等待 {sleep_time} 秒后继续...")
+    logger.debug(f"等待 {sleep_time} 秒後繼續...")
     time.sleep(sleep_time)
     return
 
@@ -204,7 +204,7 @@ def float_to_position(letter_float: float, number_float: float) -> str:
 
 
 def stop_generate():
-    logger.warning("正在停止生成...")
+    logger.warning("正在停止產生...")
     with open("./outputs/temp_break.json", "w") as f:
         json.dump({"break": True}, f)
     return
@@ -222,7 +222,7 @@ def format_dict(_dict):
 
 
 def tagger(image_path, model_repo, general_thresh, general_mcut_enabled, character_thresh, character_mcut_enabled):
-    logger.info("正在尝试反推...")
+    logger.info("正在嘗試反推...")
 
     times = 0
     while times < 5:
@@ -240,10 +240,10 @@ def tagger(image_path, model_repo, general_thresh, general_mcut_enabled, charact
             logger.success("反推成功!")
             break
         except Exception as e:
-            logger.error(f"出现错误: {e}")
-            logger.info("正在重试...")
+            logger.error(f"發生錯誤: {e}")
+            logger.info("正在重試...")
             times += 1
-            result = [f"出现错误: {e}", {}, {}, {}]
+            result = [f"發生錯誤: {e}", {}, {}, {}]
     return result[0], format_dict(result[1]), format_dict(result[2]), format_dict(result[3])
 
 
@@ -271,7 +271,7 @@ def remove_pnginfo(image, path, choices, info):
         metadata.add_text("Auto-NovelAI-Refactor", info)
 
     for file in file_list:
-        logger.warning(f"正在清除 {os.path.basename(file)} 的元数据...")
+        logger.warning(f"正在清除 {os.path.basename(file)} 的中繼資料...")
         with Image.open(file) as img:
             img = inject_data(img, metadata, choices)
             img.save(_path := Path(file))
@@ -279,7 +279,7 @@ def remove_pnginfo(image, path, choices, info):
 
     playsound("./assets/finish.mp3")
 
-    return f"清除成功! 图片已保存到 {os.path.dirname(os.path.abspath(_path))}"
+    return f"清除成功！圖片已儲存到 {os.path.dirname(os.path.abspath(_path))}"
 
 
 try:
@@ -293,18 +293,18 @@ try:
                 return
             _playsound(file_path)
         except Exception as e:
-            logger.warning(f"playsound 播放失败: {e}")
+            logger.warning(f"playsound 播放失敗: {e}")
         return
 
 except Exception:
 
     def playsound(file_path):
-        logger.warning("playsound 导入失败, 无法播放提示音!")
+        logger.warning("playsound 匯入失敗，無法播放提示音!")
         return
 
 
 def restart():
-    logger.warning("开始重启...")
+    logger.warning("開始重啟...")
     p = sys.executable
     os.execl(p, p, *sys.argv)
 
@@ -317,14 +317,14 @@ def check_update(repo_path):
             remote_ref = f"origin/{current_branch.name}"
 
             if remote_ref not in repo.references:
-                return False, "远程分支不存在"
+                return False, "遠端分支不存在"
 
             local_commit = current_branch.commit.hexsha
             remote_commit = repo.references[remote_ref].commit.hexsha
 
-            return local_commit == remote_commit, local_commit + " (更新可用)"
+            return local_commit == remote_commit, local_commit + " (可以更新)"
         else:
-            return False, "更新检查已关闭"
+            return False, "更新檢查已關閉"
 
     except Exception as e:
         return False, str(e)
@@ -367,7 +367,7 @@ def show_first_img(input_path):
         with Image.open(img_path) as img:
             return [np.array(img)], img_path
     except Exception:
-        logger.error("未输入图片目录或输入的目录为空!")
+        logger.error("未輸入圖片目錄或輸入的目錄為空!")
         return None, None
 
 
@@ -392,7 +392,7 @@ def show_next_img():
                 os.remove("./outputs/temp_selector.npy")
         return None, None
     except Exception:
-        logger.error("未输入图片目录或输入的目录为空!")
+        logger.error("未輸入圖片目錄或輸入的目錄為空!")
         return None, None
 
 
@@ -402,10 +402,10 @@ def move_current_img(current_img, output_path):
             os.makedirs(output_path)
         img_name = os.path.basename(current_img)
         shutil.move(current_img, str(Path(output_path) / img_name))
-        logger.opt(colors=True).info(f"已将 <c>{current_img}</c> 移动到 <c>{output_path}</c>")
+        logger.opt(colors=True).info(f"已將 <c>{current_img}</c> 移動到 <c>{output_path}</c>")
         return show_next_img()
     except Exception:
-        logger.error("未输入要移动的目录!")
+        logger.error("未輸入要移動的目錄!")
         return None, None
 
 
@@ -413,13 +413,13 @@ def del_current_img(current_img):
     try:
         if current_img:
             send2trash.send2trash(current_img)
-            logger.opt(colors=True).info(f"已将 <c>{current_img}</c> 移动到回收站")
+            logger.opt(colors=True).info(f"已將 <c>{current_img}</c> 移動到資源回收筒")
             return show_next_img()
         else:
-            logger.error("当前未选择图片!")
+            logger.error("目前未選擇圖片!")
             pass
     except Exception:
-        logger.error("当前未选择图片!")
+        logger.error("目前未選擇圖片!")
         return None, None
     os.chdir(BASE_PATH)
 
@@ -430,18 +430,18 @@ def copy_current_img(current_img, output_path):
             os.makedirs(output_path)
         img_name = os.path.basename(current_img)
         shutil.copyfile(current_img, str(Path(output_path) / img_name))
-        logger.opt(colors=True).info(f"已将 <c>{current_img}</c> 复制到 <c>{output_path}</c>")
+        logger.opt(colors=True).info(f"已將 <c>{current_img}</c> 複製到 <c>{output_path}</c>")
         return show_next_img()
     except Exception:
-        logger.error("未输入要复制的目录!")
+        logger.error("未輸入要複製的目錄!")
         return None, None
 
 
 def install_requirements(path):
-    # logger.debug(f"开始安装所需依赖 {path}...")
+    # logger.debug(f"開始安裝所需相依性 {path}...")
     command = f"{sys.executable} -s -m pip install -r {path}"
     subprocess.call(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    # logger.success("安装完成!")
+    # logger.success("安裝完成!")
     return
 
 
@@ -455,7 +455,7 @@ def load_plugins(directory: str):
     plugin_list = os.listdir(directory)
     for plugin in plugin_list:
         if plugin in disable_list:
-            logger.warning(f"插件 {plugin} 已禁用!")
+            logger.warning(f"插件 {plugin} 已停用!")
             continue
         if plugin.endswith(".py"):
             location = os.path.join(directory, plugin)
@@ -463,7 +463,7 @@ def load_plugins(directory: str):
             if os.path.exists(
                 requirements_path := os.path.abspath(os.path.join(directory, plugin, "requirements.txt"))
             ):
-                logger.debug(f"正在安装依赖: {requirements_path}")
+                logger.debug(f"正在安裝相依性: {requirements_path}")
                 install_requirements(requirements_path)
             location = os.path.join(directory, plugin, "__init__.py")
         else:
@@ -475,9 +475,9 @@ def load_plugins(directory: str):
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
             plugins[plugin_name] = module
-            logger.success(f"成功加载插件: {plugin}")
+            logger.success(f"成功載入插件: {plugin}")
         else:
-            logger.error(f"插件: {plugin} 没有 plugin 函数!")
+            logger.error(f"插件: {plugin} 沒有 plugin 函式!")
     return plugins
 
 
@@ -509,7 +509,7 @@ def plugin_list():
     except FileNotFoundError:
         disable_list = []
 
-    md = """| 名称(Name) | 描述(Description) | 仓库(URL) | 作者(Author) | 状态(Status) |
+    md = """| 名稱(Name) | 描述(Description) | 倉庫(URL) | 作者(Author) | 狀態(Status) |
 | :---: | :---: | :---: | :---: | :---: |
 """
     for plugin in _plugin_list:
@@ -519,24 +519,24 @@ def plugin_list():
             )
         ):
             if plugin in disable_list:
-                status = "已禁用"
+                status = "已停用"
             else:
                 if not env.check_update:
-                    status = "已安装"
+                    status = "已安裝"
                 else:
                     _status, commit = check_update(path)
                     if _status:
-                        status = "已安装"
+                        status = "已安裝"
                     else:
                         if commit not in [
-                            "远程分支不存在",
-                            "更新检查已关闭",
+                            "遠端分支不存在",
+                            "更新檢查已關閉",
                         ]:
-                            status = "更新可用"
+                            status = "可以更新"
                         else:
-                            status = "版本检查失败"
+                            status = "版本檢查失敗"
         else:
-            status = "未安装"
+            status = "未安裝"
         md += "| {} | {} | [{}]({}) | {} | {} |\n".format(
             plugins[plugin]["name"],
             plugins[plugin]["description"],
@@ -549,5 +549,5 @@ def plugin_list():
         if p in _plugin_list:
             pass
         else:
-            md += f"| {p.replace('.py', '')} | 本地插件 | 本地插件 | 未知 | 已安装 |\n"
+            md += f"| {p.replace('.py', '')} | 本地插件 | 本地插件 | 未知 | 已安裝 |\n"
     return md

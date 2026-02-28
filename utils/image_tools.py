@@ -110,7 +110,7 @@ def process_white_regions(image_path, output_path):
 
     height, width = img_array.shape[:2]
     if height % 64 != 0 or width % 64 != 0:
-        raise ValueError("图片尺寸必须是64的倍数")
+        raise ValueError("圖片尺寸必須是64的倍數")
 
     if len(img_array.shape) == 3:
         gray = np.mean(img_array, axis=2)
