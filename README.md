@@ -23,4 +23,4 @@
 3. **Clone 專案**：
    打開 CMD 或 PowerShell，執行以下指令將本繁體中文專案拉取到電腦中：
    ```bash
-   git clone [https://github.com/redt0cat/ANAR_2nd.git](https://github.com/redt0cat/ANAR_2nd.git)
+   git clone https://github.com/redt0cat/ANAR_2nd.git
